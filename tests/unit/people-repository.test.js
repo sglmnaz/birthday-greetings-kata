@@ -9,7 +9,11 @@ const fileContent =
 Mastro, Lindo, ${tomorrow.toISOString()}, mastrolindo@foobar.com
 Ciro, Esposito, ${tomorrow.toISOString()}, ciroesposito@foobar.com`
 
-const repository = new PeopleRepository(fileContent)
+const clockMocked = {
+  getTodayDate: () => new Date(),
+  getDate: (stringDate) => new Date(stringDate)
+}
+const repository = new PeopleRepository(fileContent, clockMocked)
 
 describe('PeopleRepository', () => {
 

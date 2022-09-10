@@ -1,5 +1,7 @@
-function PeopleRepository(peopleText) {
 
+function PeopleRepository(peopleText, clock) {
+
+  this.clock = clock
   this.peopleText = peopleText
 
   this.getPeople = () => {
@@ -17,8 +19,12 @@ function PeopleRepository(peopleText) {
 
   this.getPeopleBornToday = () => {
     return this.getPeople().filter(person => {
-      const today = new Date()
-      const birthDate = new Date(person.birthDate)
+      const today = this.clock.getTodayDate()
+      const birthDate = this.clock.getDate(person.birthDate)
+
+      if (today.getDate() === 29 && today.getMonth() === 1) {
+        return false
+      }
 
       if (today.getDate() === birthDate.getDate() && today.getMonth() === birthDate.getMonth()) {
         return true
@@ -35,8 +41,8 @@ function PeopleRepository(peopleText) {
 
   this.getPeopleNotBornToday = () => {
     return this.getPeople().filter(person => {
-      const today = new Date()
-      const birthDate = new Date(person.birthDate)
+      const today = this.clock.getTodayDate()
+      const birthDate = this.clock.getDate(person.birthDate)
 
       if (today.getDate() === birthDate.getDate() && today.getMonth() === birthDate.getMonth()) {
         return false
